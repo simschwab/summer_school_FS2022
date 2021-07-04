@@ -33,9 +33,9 @@ setwd('U:/Lektionen/Summerschool_FS2021/Automated_Crypotocurrency_Trading/Crypto
 getwd()
 
 # API-Keys (never send this in cleartext in an real crypto trading setting!!!)
-api_key    = '61cc81938ae7bb3217545abf2b2ece61'
-secret     = 'iZ/N2/447+5zijzIajZVLakUsBt2KxiuyLBnZUgWxVXlk7RN2anHSgYL5jRD0NfDGWWx2isA8YPAnUWw2j1FNA=='
-passphrase = 'kkcn0y7akaj'
+api_key    = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+secret     = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+passphrase = 'xxxxxxxxxxxxxxxxxxx'
 
 #-------------------------------------------------------------------------------
 # Load libraries and define working directory

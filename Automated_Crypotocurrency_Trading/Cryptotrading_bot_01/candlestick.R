@@ -16,8 +16,8 @@ library(binancer)
 options(warn=-1)
 
 # API keys
-key    <- 'LzcTcwtqsj8K8Hx4eVmnkvyRHCluuYUPraGDn8DBxMSDXu69xkn2oOvsszTC6SnW'
-secret <- 'cOjdF5aPWn5FAcqgaDVeOLUWTYkgjshk50DfC3Irs3fQNSUshVE4sPdUsK1RbK2k'
+key    <- 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+secret <- 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
 binance_ping()
 binance_credentials(key, secret)
