@@ -44,7 +44,7 @@ repeat {
   password <- 'password'
   
   # Generate new data every minute
-  # Note that BTCUSDT is giving the indication to use bitcoin and in USD, this key can change as needed.
+  # Note that BTCUSDT is used here to trade the Bitcoin / Tether pair, which can be changed.
   
   data <- binance_klines('BTCUSDT', interval = '1m')
   data[1:10,]
