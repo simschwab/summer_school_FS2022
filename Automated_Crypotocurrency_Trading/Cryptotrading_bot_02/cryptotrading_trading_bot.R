@@ -32,7 +32,7 @@ RSI14_L04_th <- 30 # <
 setwd('U:/Lektionen/Summerschool_FS2021/Automated_Crypotocurrency_Trading/Cryptotrading_bot_02')
 getwd()
 
-# API-Keys (never send this in cleartext in an real crypto trading setting!!!)
+# API-Keys (never send this in cleartext in a real crypto trading setting!!!)
 api_key    = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 secret     = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 passphrase = 'xxxxxxxxxxxxxxxxxxx'
