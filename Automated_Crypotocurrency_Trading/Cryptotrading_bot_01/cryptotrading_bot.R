@@ -1,11 +1,13 @@
 #-------------------------------------------------------------------------------------------------------------------------
-# Script for the automated trading of cryptocurrencies on the Binance test network
+# Script for the automated trading of cryptocurrencies on the Binance Spot Test Network
 #-------------------------------------------------------------------------------------------------------------------------
+
+# Example taken (and adapted to make it made running) from:
+# https://medium.com/mcd-unison/cryptotrading-bot-with-r-no-real-transactions-beginner-friendly-9d9407dc1d40
 
 # Libraries
 # install.packages("devtools", dependecies=TRUE)
 # install_github("daroczig/binancer")
-
 library(magrittr)
 library(plotly)
 library(quantmod)
@@ -29,8 +31,8 @@ repeat {
   source("indication.R")
   
   # API keys
-  key    <- 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-  secret <- 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  key    <- 'LzcTcwtqsj8K8Hx4eVmnkvyRHCluuYUPraGDn8DBxMSDXu69xkn2oOvsszTC6SnW'
+  secret <- 'cOjdF5aPWn5FAcqgaDVeOLUWTYkgjshk50DfC3Irs3fQNSUshVE4sPdUsK1RbK2k'
   
   # Calling the API
   binance_ping()
