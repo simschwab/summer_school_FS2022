@@ -2,7 +2,7 @@
 # Script for the automated trading of cryptocurrencies on the Binance Spot Test Network
 #-------------------------------------------------------------------------------------------------------------------------
 
-# Example taken (and adapted to make it made running) from:
+# Example taken (and adapted to make it running) from:
 # https://medium.com/mcd-unison/cryptotrading-bot-with-r-no-real-transactions-beginner-friendly-9d9407dc1d40
 
 # Libraries
