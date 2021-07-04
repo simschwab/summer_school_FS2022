@@ -1,0 +1,136 @@
+#----------------------------------------------------------------------------------------------------------------
+# Ablauf und Inhalte Summer School Data Science. Day (1) Credit Risk Modeling
+#----------------------------------------------------------------------------------------------------------------
+
+#-----------------------------------------------
+# Prereqisites
+#-----------------------------------------------
+
+- Anaconda with Python 3 and Jupyter Notebook / Jupyter Lab
+- Credit risk data
+
+#----------------------------------------------------------------
+# Team (1)
+#----------------------------------------------------------------
+
+Task: Working with Python and Jupyter Notebook
+- installation
+- make running (local, remote)
+- HTML formatting (Markdowns)
+- getting help
+- working with short cuts
+- Jupyter Notebook, 
+- Jupyter Lab, 
+- Google Collab,
+- Jupyter Notebooks with Amazon SageMaker
+
+#----------------------------------------------------------------
+# Team (2)
+#----------------------------------------------------------------
+
+Task: Explaining the data and working with pandas data frames
+- read / write data
+- selection and indexing
+- converting data to pandas data frame
+- converting data from pandas to other structures (e.g. json-file)
+- drop
+- sort
+- info
+- count
+- sum
+- describe
+- ...
+
+Task: Exploratory data analysis using different kinds of non-graphical methods
+- count
+- number of missing values
+- number of unique categories per categorical variable
+- min.
+- max.
+- mean
+- median
+- quantiles (10% ... 90%)
+- standard deviation
+- crosstables
+- ...
+
+#----------------------------------------------------------------
+# Team (3)
+#----------------------------------------------------------------
+
+Task: Exploratory data analysis using graphical methods (matplotlib, seaborn, plotly experts)
+- Barcharts
+- Histograms
+- Density plots
+- Boxplots and grouped box plots
+- Heatmaps
+- Violine plots
+- ...
+
+#----------------------------------------------------------------
+# Team (4)
+#----------------------------------------------------------------
+
+Task: Data engineering and preprocessing
+- calculation of new variables
+- one hot encoding
+- standardization of variables
+- normalization of variables
+
+#----------------------------------------------------------------
+# Team (5) modelling (sklearn)
+#----------------------------------------------------------------
+
+Task: Pre
+- LogReg
+- KNN
+- RandomForest
+- cross validation
+- model fitting for classification
+
+#----------------------------------------------------------------
+# Team (6) modelling (sklearn)
+#----------------------------------------------------------------
+
+- DecisionTree
+- XGBoost
+- MLP
+- building train/test data sets
+- cross validation
+- model fitting for classification
+
+#----------------------------------------------------------------
+# Team (7) Model predictions and -performance
+#----------------------------------------------------------------
+
+- model predictions
+- confusion matrix
+- accuracy
+- precision
+- recall
+- auc
+- roc-curve
+
+-> Morning Sessions: 10 Min. per Team to brainstorm the requirements and methods
+-> Afternoon Sessions: 20 Min. per Team to present the methods and results
+
+#-----------------------------------------------
+# Structure of the final report (Power Point)
+#-----------------------------------------------
+
+1 Introduction
+1.1 Background
+1.2 Problem definition
+1.3 Research gap
+1.4 Objectives
+1.5 Research Question
+2 Research design
+3 State of research
+4 Materials and Methods
+4.1 Data
+4.2 Exploratory Data Analysis
+4.3 Modeling
+5 Results & Discussion 
+6 Conclusions
+
+
