@@ -1,2 +1,2 @@
-# summer_school_FS2021
- Summer School FS2021
+# summer_school_FS2022
+ Summer School FS2022
