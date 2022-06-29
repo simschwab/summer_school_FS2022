@@ -31,8 +31,8 @@ repeat {
   source("indication.R")
   
   # API keys
-  key    <- 'LzcTcwtqsj8K8Hx4eVmnkvyRHCluuYUPraGDn8DBxMSDXu69xkn2oOvsszTC6SnW'
-  secret <- 'cOjdF5aPWn5FAcqgaDVeOLUWTYkgjshk50DfC3Irs3fQNSUshVE4sPdUsK1RbK2k'
+  key    <- 'xxxx'
+  secret <- 'xxxx'
   
   # Calling the API
   binance_ping()
@@ -45,7 +45,6 @@ repeat {
   
   # Generate new data every minute
   # Note that BTCUSDT is giving the indication to use bitcoin and in USD, this key can change as needed.
-  
   data <- binance_klines('BTCUSDT', interval = '1m')
   data[1:10,]
 
@@ -57,6 +56,7 @@ repeat {
   # RSI
   rsi  <- RSI(data$close, n = 14, maType = "SMA") 
   rsi1 <- as.data.frame(rsi)
+  rsi1
   
   # Create a new line for the log file 
   df     <- indication(macd1, rsi1)

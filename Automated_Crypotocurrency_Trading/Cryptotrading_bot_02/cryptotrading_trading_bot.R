@@ -3,8 +3,12 @@
 #
 # It uses the Coinbase-Sandbox: https://public.sandbox.pro.coinbase.com
 #
-# Example taken and (with some effort) made running from: 
+# Example taken and (with some effort and bug-fixing) made running from: 
 # https://towardsdatascience.com/build-a-cryptocurrency-trading-bot-with-r-1445c429e1b1
+
+# Further information about rgdax (Coinbase):
+# https://rdrr.io/github/DheerajAgarwal/rgdax/src/R/auth.R
+# https://randerson112358.medium.com/create-a-cryptocurrency-trading-bot-in-r-54a445136408
 
 #-------------------------------------------------------------------------------
 # Prerequisites
@@ -12,11 +16,25 @@
 
 # Coinbase Pro account with verification (pass photo upload)
 # Coinbase Pro public sandbox open: https://public.sandbox.pro.coinbase.com
-# Deposit USD
+# Deposit EUR
 # API-Key
 # Secret-Key
 # Passphrase
 
+#-------------------------------------------------------------------------------
+# Path to working directory
+#-------------------------------------------------------------------------------
+
+setwd('U:/Lektionen/Summerschool_FS2022/Automated_Crypotocurrency_Trading/Cryptotrading_bot_02')
+getwd()
+
+#-------------------------------------------------------------------------------
+# Loop (will be replaced later by scheduling using cron)
+#-------------------------------------------------------------------------------
+
+# Loop start
+for(i in 1:1000) {
+  
 #-------------------------------------------------------------------------------
 # Define RSI thresholds for the bot to start trading (according to the Strategy)
 #-------------------------------------------------------------------------------
@@ -28,58 +46,27 @@ RSI14_L02_th <- 30 # <
 RSI14_L03_th <- 30 # <
 RSI14_L04_th <- 30 # <
 
-# Path to working directory
-setwd('U:/Lektionen/Summerschool_FS2021/Automated_Crypotocurrency_Trading/Cryptotrading_bot_02')
-getwd()
-
-# API-Keys (never send this in cleartext in an real crypto trading setting!!!)
-api_key    = '61cc81938ae7bb3217545abf2b2ece61'
-secret     = 'iZ/N2/447+5zijzIajZVLakUsBt2KxiuyLBnZUgWxVXlk7RN2anHSgYL5jRD0NfDGWWx2isA8YPAnUWw2j1FNA=='
-passphrase = 'kkcn0y7akaj'
-
 #-------------------------------------------------------------------------------
 # Load libraries and define working directory
 #-------------------------------------------------------------------------------
 
-# Install package rgdax from lokal folder (adapted GitHub Repository)
+# Install package rgdax from lokal folder (bug-fixed GitHub Repository)
 # devtools::install("C:/Users/gell/rgdax", force=TRUE)
 
 library(rgdax)
-library(mailR)
 library(stringi)
 library(curl)
 library(xts)
 library(TTR)
 library(dplyr)
-
-#-------------------------------------
-# Task scheduling in RStudio
-#-------------------------------------
-
-# See also:
-# http://www.bnosac.be/index.php/blog/51-new-rstudio-add-in-to-schedule-r-scripts
-
-# Packages to install 
-# install.packages('data.table')
-# install.packages('knitr')
-# install.packages('miniUI')
-# install.packages('shiny')
-# install.packages("taskscheduleR")
-
-#-------------------------------------
-# Loop (instead of scheduling)
-#-------------------------------------
-
-# Number of iterations (simplifies task scheduling)
-for(i in 1:1000) {
+library(jsonlite)
 
 #-------------------------------------
 # Authentication
 #-------------------------------------
 
-# See also: 
-# https://rdrr.io/github/DheerajAgarwal/rgdax/src/R/auth.R
-# https://randerson112358.medium.com/create-a-cryptocurrency-trading-bot-in-r-54a445136408
+# Import API-Keys from separate file
+source("api_keys.R")
 
 #-------------------------------------
 # Overview of Coinbase accounts
@@ -91,16 +78,23 @@ accounts(api.key = api_key,
 )
 
 #-------------------------------------
+# Get valid product IDs on Coinbase
+#-------------------------------------
+
+# First ten valid product IDs
+# public_info()[1:10,]
+
+#-------------------------------------
 # Functions required by the bot
 #-------------------------------------
 
-# Function to get the balance (USDT)
-curr_bal_usd <- function(x){
+# Function to get the balance (EUR)
+curr_bal_eur <- function(x){
   m <-  accounts(api.key = api_key, 
                  secret = secret, 
                  passphrase = passphrase
         )
-  m <-  subset(m$available, m$currency == 'USD')
+  m <-  subset(m$available, m$currency == 'EUR')
   return(as.numeric(m))
 }
 
@@ -114,9 +108,9 @@ curr_bal_btc <- function(x){
   return(as.numeric(n))
 }
 
-# Function to get the RSI14
+# Function to get the current RSI14
 curr_rsi14_api_fkt <- function(x){
-  df <- rgdax::public_candles(product_id = "BTC-USD",
+  df <- rgdax::public_candles(product_id = "BTC-EUR",
                               granularity = NULL)
   rsi_gdax <- tail(TTR::RSI(df[,5],
                             n = 14),
@@ -126,7 +120,7 @@ curr_rsi14_api_fkt <- function(x){
 
 # Function to get the RSI14 (less one)
 rsi14_api_less_one_fkt <- function(x){
-  df <- rgdax::public_candles(product_id = "BTC-USD",
+  df <- rgdax::public_candles(product_id = "BTC-EUR",
                               granularity = NULL)
   rsi_gdax_less_one <- head(tail(TTR::RSI(df[,5],
                                           n = 14),
@@ -136,7 +130,7 @@ rsi14_api_less_one_fkt <- function(x){
 
 # Function to get the RSI14 (less two)
 rsi14_api_less_two_fkt <- function(x){
-  df <- rgdax::public_candles(product_id = "BTC-USD",
+  df <- rgdax::public_candles(product_id = "BTC-EUR",
                               granularity = NULL)
   rsi_gdax_less_two <- head(tail(TTR::RSI(df[,5],
                                           n = 14),
@@ -146,7 +140,7 @@ rsi14_api_less_two_fkt <- function(x){
 
 # Function to get the RSI14 (less three)
 rsi14_api_less_three_fkt <- function(x){
-  df <- rgdax::public_candles(product_id = "BTC-USD",
+  df <- rgdax::public_candles(product_id = "BTC-EUR",
                               granularity = NULL)
   rsi_gdax_less_three <- head(tail(TTR::RSI(df[,5],
                                             n = 14),
@@ -156,7 +150,7 @@ rsi14_api_less_three_fkt <- function(x){
 
 # Function to get the RSI14 (less four)
 rsi14_api_less_four_fkt <- function(x){
-  df <- rgdax::public_candles(product_id = "BTC-USD",
+  df <- rgdax::public_candles(product_id = "BTC-EUR",
                               granularity = NULL)
   rsi_gdax_less_four <- head(tail(TTR::RSI(df[,5],
                                            n = 14),
@@ -165,22 +159,28 @@ rsi14_api_less_four_fkt <- function(x){
 }
 
 # Function to get the bid price
-bid <- function(x){
-  bid <- public_orderbook(product_id = "BTC-USD", level = 1)
-  bid <- as.numeric(bid$bid_price[1])
-  bid
+bid <- function(x) {
+  
+  d.req <- fromJSON("https://api.pro.coinbase.com/products/BTC-EUR/book?level=1")
+  d.dat <- unlist(d.req)
+  
+  return(as.numeric(d.dat[1]))
+  
 }
 
 # Function to get the ask price
-ask <- function(x){
-  ask <- public_orderbook(product_id = "BTC-USD", level = 1)
-  ask <- as.numeric(ask$ask_price[1])
-  ask
+ask <- function(x) {
+  
+  d.req <- fromJSON("https://api.pro.coinbase.com/products/BTC-EUR/book?level=1")
+  d.dat <- unlist(d.req)
+  
+  return(as.numeric(d.dat[4]))
+  
 }
 
 # Function to get hold details for an account 
-usd_hold <- function(x){
-  holds(currency = "USD", 
+eur_hold <- function(x){
+  holds(currency = "EUR", 
         api.key = api_key, 
         secret = secret, 
         passphrase = passphrase
@@ -210,21 +210,20 @@ cancel_orders <- function(x){
 # Function that places the buy orders
 buy_exe <- function(x){
   
-  # Get order size as the number of coins as allowed by the USD balance
-  order_size <- round(curr_bal_usd()/ask(),5)[1]-0.005
-  order_size <- 1
+  # Get order size as the number of coins as allowed by the EUR balance
+  order_size <- round(curr_bal_eur()/ask(),5)[1]-0.005
   
   # While-Loop places buy orders as long as the coin balance equals zero
   while(curr_bal_btc() == 0){
     
-    add_order('BTC-USD', 
-              api.key = api_key, 
-              secret = secret, 
-              passphrase = passphrase,
-              type="limit", 
-              price = bid(), 
-              side = "b",  
-              size = order_size
+    add_order('BTC-EUR', 
+               api.key = api_key, 
+               secret = secret, 
+               passphrase = passphrase,
+               type="limit", 
+               price = bid(), 
+               side = "b",  
+               size = order_size
     )
     
     # Sleep to see if order takes
@@ -244,14 +243,14 @@ sell_exe <- function(x){
   # While-Loop places sell orders until the coin balance is > 0
   while(curr_bal_btc() > 0){
     
-    add_order("BTC-USD", 
-              api.key = api_key, 
-              secret = secret, 
-              passphrase = passphrase,
-              type="limit", 
-              price = ask(), 
-              side = "s",  
-              size = curr_bal_btc()
+    add_order("BTC-EUR", 
+               api.key = api_key, 
+               secret = secret, 
+               passphrase = passphrase,
+               type="limit", 
+               price = ask(), 
+               side = "s",  
+               size = curr_bal_btc()
       )
     
     # Sleep to see if order takes
@@ -316,7 +315,7 @@ legend("topleft",
 #-------------------------------------------------
 
 # Conditions of trading strategy
-if(curr_bal_usd() >= 20) {      # if you have more than $20 USD start loop
+if(curr_bal_eur() >= 20) {      # if you have more than 20 EUR start loop
   if(curr_rsi14_api >= RSI14_th &      # and current rsi >= threshold
      rsi14_api_less_one <= RSI14_L01_th &    # and previous close RSI <= threshold
       (rsi14_api_less_two < RSI14_L02_th | rsi14_api_less_three < RSI14_L03_th | rsi14_api_less_four < RSI14_L04_th) ) { # and i-2, i-3 or i-4 RSI < threshold
@@ -334,34 +333,15 @@ if(curr_bal_usd() >= 20) {      # if you have more than $20 USD start loop
     # Save buy price in csv-file
     #----------------------------------
     
-    tab = data.frame(Time=as.character(Sys.time()), Price=as.numeric(bid()))
+    tab = data.frame(Time=as.character(Sys.time()), Price=bid())
     write.table(tab, 
-                'bid_price_log.csv', 
+               'bid_price_log.csv', 
                 sep=";", 
                 row.names = FALSE, 
                 col.names = FALSE,
                 append=TRUE
     )
     
-    #----------------------------------
-    # Send Email
-    #----------------------------------
-    
-    # It is recommended to generate a temporary gmail account for this part
-    
-    # send.mail(from = "your_username@gmail.com",
-    #           to = c("your_username@gmail.com"),
-    #           replyTo = c("Reply to someone else <your_username@gmail.com>"),
-    #           subject = "GDAX ETH Test - Buy",
-    #           body = paste("Your model says buy right now at price",bid()),
-    #           smtp = list(host.name = "smtp.gmail.com",
-    #                       port = 465,
-    #                       user.name = "your_username",
-    #                       passwd = "your_password",
-    #                       ssl = TRUE),
-    #           authenticate = TRUE,
-    #           send = TRUE)
-
     #----------------------------------
     # Print for logs
     #----------------------------------
@@ -375,7 +355,7 @@ if(curr_bal_usd() >= 20) {      # if you have more than $20 USD start loop
     # Sell-Order (1): Take 1/3 profits at 1% gain
     order_size_tiered3  <- round(curr_bal_btc()/3,3)
     order_price_tiered3 <- round(bid() * 1.01,2)
-    add_order(product_id = "BTC-USD", 
+    add_order(product_id = "BTC-EUR", 
               api.key = api_key, 
               secret = secret, 
               passphrase = passphrase,
@@ -389,7 +369,7 @@ if(curr_bal_usd() >= 20) {      # if you have more than $20 USD start loop
     # Sell-Order (2): Take 1/3 profits at 4% gain
     order_size_tiered5  <- round(curr_bal_btc()/2,3)
     order_price_tiered5 <- round(bid() * 1.04,2)
-    add_order(product_id = "BTC-USD", 
+    add_order(product_id = "BTC-EUR", 
               api.key = api_key, 
               secret = secret, 
               passphrase = passphrase,
@@ -403,7 +383,7 @@ if(curr_bal_usd() >= 20) {      # if you have more than $20 USD start loop
     # Sell-Order (3): take 1/3 profits at 7% gain
     order_size_tiered8  <- round(curr_bal_btc(),3)
     order_price_tiered8 <- round(bid() * 1.07,2)
-    add_order(product_id = "BTC-USD", 
+    add_order(product_id = "BTC-EUR", 
               api.key = api_key, 
               secret = secret, 
               passphrase = passphrase,
@@ -415,7 +395,6 @@ if(curr_bal_usd() >= 20) {      # if you have more than $20 USD start loop
   }else{cat("System time:", as.character(Sys.time()), "|", "no coins traded so far", "\n")}
 }else{cat("System time:", as.character(Sys.time()), "|", "no coins traded so far", "\n")}
 
-# Sleep XX seconds
 Sys.sleep(30)
 
 }

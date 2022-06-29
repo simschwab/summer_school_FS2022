@@ -3,6 +3,7 @@
 #-------------------------------------------------------------------------------------------------------------------------
 
 # Libraries
+# install.packages("devtools", dependencies=TRUE)
 # library(devtools)
 # install_github("daroczig/binancer")
 library(magrittr)
@@ -16,13 +17,14 @@ library(binancer)
 options(warn=-1)
 
 # API keys
-key    <- 'LzcTcwtqsj8K8Hx4eVmnkvyRHCluuYUPraGDn8DBxMSDXu69xkn2oOvsszTC6SnW'
-secret <- 'cOjdF5aPWn5FAcqgaDVeOLUWTYkgjshk50DfC3Irs3fQNSUshVE4sPdUsK1RbK2k'
+key    <- 'xxxx'
+secret <- 'xxxx'
 
 binance_ping()
 binance_credentials(key, secret)
 
 data <- binance_klines('BTCUSDT', interval = '1d')
+data[1:10,]
 
 precioBTC <- binance_coins_prices(unit = "USDT")  %>%
   filter(symbol == "BTC")
@@ -31,7 +33,9 @@ precioBTC$usd
 head(data)
 str(data)
 x <- data$open_time
+x[1:10]
 y <- data %>% dplyr::select(open, high, low, close) %>% as.matrix()
+y[1:10,]
 
 # Candlestick
 data %>% 
@@ -39,6 +43,7 @@ data %>%
                  open = data$open, close = data$close,
                  high = data$high, low = data$low) %>%
   layout(title = "Candlestick Chart")
+data[1:10,]
 
 # MACD
 macd  <- MACD(data[,"close"], 12, 26, 9, maType="EMA" )
@@ -59,6 +64,7 @@ head(bbands1)
 tail(bbands1)
 
 # Candlestick with MACD, RSI and BBands
+x11()
 chartSeries(data, theme=chartTheme('black'))
 addMACD(fast=12,slow=26,signal=9,type="EMA")
 addRSI(data$close, n = 14, maType = "SMA")

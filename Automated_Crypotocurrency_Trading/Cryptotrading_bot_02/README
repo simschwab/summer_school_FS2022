@@ -1,0 +1,18 @@
+#-----------------------------------------------------------------------------------------------
+# README
+#-----------------------------------------------------------------------------------------------
+
+# Note that the package rgdax has some bugs/issues which must be fixed to make it work.
+#
+# The steps are:
+# 1.) Clone the latest 'rgdax' github repository to a local directory, e.g. to C:\Users\my-user-name
+# 2.) Go to the folder C:\Users\my-user-name\rgdax\R
+# 3.) Open the file 'public_candles.R' and uncomment the line 'print(content)'
+# 4.) Replace the file auth.R by a previous version provided in the course.
+# 5.) One bug is also reported for the file 'public_orderbook.R'. This has been solved by
+      requesting the .json-file with the bid and ask prices directly using the commands:
+	  # Bid and ask price
+      d.req <- fromJSON("https://api.pro.coinbase.com/products/BTC-EUR/book?level=1")
+      d.dat <- unlist(d.req)
+      bid   <- as.numeric(d.dat[1])
+      ask   <- as.numeric(d.dat[4])
