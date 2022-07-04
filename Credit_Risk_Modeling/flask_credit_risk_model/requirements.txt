@@ -1,0 +1,9 @@
+pandas==1.4.2
+sklearn==1.0.2
+flask==2.1.1
+flask_jwt==0.3.2
+flask_wtf==1.0.1
+joblib==1.1.0
+wtforms==3.0.0
+xgboost==1.6.1
+joblib=1.1.0
