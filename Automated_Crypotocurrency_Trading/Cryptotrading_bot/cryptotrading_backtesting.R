@@ -78,14 +78,21 @@ library(TTR)
 # Simple moving average (SMA)
 #---------------------------------------------
 
+# Fast SMA
 sma.20    <- SMA(df$Close, n=20)
 df$SMA20  <- sma.20 
+df
+
+# Slow SMA
+sma.05    <- SMA(df$Close, n=5)
+df$SMA05  <- sma.05 
 df
 
 #---------------------------------------------
 # Relative Strength Index (RSI)
 #---------------------------------------------
 
+# Current RSI
 rsi    <- RSI(df$Close, n=14)
 df$RSI <- rsi
 df
@@ -176,6 +183,10 @@ fig <- fig %>% add_lines(x = ~OpenTime, y = ~DN, name = "BBands",
 
 fig <- fig %>% add_lines(x = ~OpenTime, y = ~MAVG, name = "SMA20",
                          line = list(color = '#E377C2', width = 0.8),
+                         hoverinfo = "none")
+
+fig <- fig %>% add_lines(x = ~OpenTime, y = ~SMA05, name = "SMA05",
+                         line = list(color = '#C0392B', width = 1.0),
                          hoverinfo = "none")
 
 fig <- fig %>% layout(yaxis = list(title = "Price"))

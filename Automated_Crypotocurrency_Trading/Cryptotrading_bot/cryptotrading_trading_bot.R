@@ -25,7 +25,7 @@
 # Path to working directory
 #-------------------------------------------------------------------------------
 
-setwd('U:/Lektionen/Summerschool_FS2022/Automated_Crypotocurrency_Trading/Cryptotrading_bot_02')
+setwd('U:/Lektionen/Summerschool_FS2022/Automated_Crypotocurrency_Trading/Cryptotrading_Bot')
 getwd()
 
 #-------------------------------------------------------------------------------
@@ -109,9 +109,9 @@ curr_bal_btc <- function(x){
 }
 
 # Function to get the current RSI14
-curr_rsi14_api_fkt <- function(x){
+rsi14_api_fkt <- function(x){
   df <- rgdax::public_candles(product_id = "BTC-EUR",
-                              granularity = NULL)
+                              granularity = 60) # 1 minute
   rsi_gdax <- tail(TTR::RSI(df[,5],
                             n = 14),
                    n = 1)
@@ -121,7 +121,7 @@ curr_rsi14_api_fkt <- function(x){
 # Function to get the RSI14 (less one)
 rsi14_api_less_one_fkt <- function(x){
   df <- rgdax::public_candles(product_id = "BTC-EUR",
-                              granularity = NULL)
+                              granularity = 60) # 1 minute
   rsi_gdax_less_one <- head(tail(TTR::RSI(df[,5],
                                           n = 14),
                                  n = 2),n=1)
@@ -131,7 +131,7 @@ rsi14_api_less_one_fkt <- function(x){
 # Function to get the RSI14 (less two)
 rsi14_api_less_two_fkt <- function(x){
   df <- rgdax::public_candles(product_id = "BTC-EUR",
-                              granularity = NULL)
+                              granularity = 60) # 1 minute
   rsi_gdax_less_two <- head(tail(TTR::RSI(df[,5],
                                           n = 14),
                                  n = 3),n=1)
@@ -141,7 +141,7 @@ rsi14_api_less_two_fkt <- function(x){
 # Function to get the RSI14 (less three)
 rsi14_api_less_three_fkt <- function(x){
   df <- rgdax::public_candles(product_id = "BTC-EUR",
-                              granularity = NULL)
+                              granularity = 60) # 1 minute
   rsi_gdax_less_three <- head(tail(TTR::RSI(df[,5],
                                             n = 14),
                                    n = 4),n=1)
@@ -151,7 +151,7 @@ rsi14_api_less_three_fkt <- function(x){
 # Function to get the RSI14 (less four)
 rsi14_api_less_four_fkt <- function(x){
   df <- rgdax::public_candles(product_id = "BTC-EUR",
-                              granularity = NULL)
+                              granularity = 60) # 1 minute
   rsi_gdax_less_four <- head(tail(TTR::RSI(df[,5],
                                            n = 14),
                                   n = 5),n=1)
@@ -237,7 +237,7 @@ buy_exe <- function(x){
   }
 }
 
-# Function that places the sell orders
+# Function that places the sell orders (if needed)
 sell_exe <- function(x){
   
   # While-Loop places sell orders until the coin balance is > 0
@@ -269,14 +269,14 @@ sell_exe <- function(x){
 # (to not exceed rate limit of API)
 #-------------------------------------------------
 
-curr_rsi14_api       <- curr_rsi14_api_fkt()
+rsi14_api            <- rsi14_api_fkt()
 rsi14_api_less_one   <- rsi14_api_less_one_fkt()
 rsi14_api_less_two   <- rsi14_api_less_two_fkt()
 rsi14_api_less_three <- rsi14_api_less_three_fkt()
 rsi14_api_less_four  <- rsi14_api_less_four_fkt()
 
 # Show RSI values in table
-df_rsi <- data.frame( RSI14 = curr_rsi14_api,
+df_rsi <- data.frame( RSI14 = rsi14_api,
                       RSI14_L01 = rsi14_api_less_one,
                       RSI14_L02 = rsi14_api_less_two,
                       RSI14_L03 = rsi14_api_less_three,
@@ -286,11 +286,11 @@ df_rsi
 
 # Colors for bar chart
 cols <- rep('#7F7F7F', 5)
-cols[1] <- ifelse(df_rsi$RSI14     >=RSI14_th, '#17BECF', cols[1])
-cols[2] <- ifelse(df_rsi$RSI14_L01 <=RSI14_L01_th, '#17BECF', cols[2])
-cols[3] <- ifelse(df_rsi$RSI14_L02  <RSI14_L02_th, '#17BECF', cols[3])
-cols[4] <- ifelse(df_rsi$RSI14_L03  <RSI14_L03_th, '#17BECF', cols[4])
-cols[5] <- ifelse(df_rsi$RSI14_L04  <RSI14_L04_th, '#17BECF', cols[5])
+cols[1] <- ifelse(df_rsi$RSI14     >= RSI14_th, '#17BECF', cols[1])
+cols[2] <- ifelse(df_rsi$RSI14_L01 <= RSI14_L01_th, '#17BECF', cols[2])
+cols[3] <- ifelse(df_rsi$RSI14_L02  < RSI14_L02_th, '#17BECF', cols[3])
+cols[4] <- ifelse(df_rsi$RSI14_L03  < RSI14_L03_th, '#17BECF', cols[4])
+cols[5] <- ifelse(df_rsi$RSI14_L04  < RSI14_L04_th, '#17BECF', cols[5])
 cols
 
 # Plot RSI-values
@@ -316,7 +316,7 @@ legend("topleft",
 
 # Conditions of trading strategy
 if(curr_bal_eur() >= 20) {      # if you have more than 20 EUR start loop
-  if(curr_rsi14_api >= RSI14_th &      # and current rsi >= threshold
+  if(rsi14_api >= RSI14_th &      # and current rsi >= threshold
      rsi14_api_less_one <= RSI14_L01_th &    # and previous close RSI <= threshold
       (rsi14_api_less_two < RSI14_L02_th | rsi14_api_less_three < RSI14_L03_th | rsi14_api_less_four < RSI14_L04_th) ) { # and i-2, i-3 or i-4 RSI < threshold
     
