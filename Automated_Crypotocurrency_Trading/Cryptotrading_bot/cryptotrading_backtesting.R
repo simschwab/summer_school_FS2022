@@ -241,6 +241,7 @@ fig
 library(tidyverse)
 library(TTR)
 library(PerformanceAnalytics)
+library(stringr)
 
 # Rearranging the data frame and calculating profit & loss (=pnl)
 df_bt <- df %>%

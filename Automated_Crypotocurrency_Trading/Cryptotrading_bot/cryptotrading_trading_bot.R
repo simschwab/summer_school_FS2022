@@ -211,7 +211,8 @@ cancel_orders <- function(x){
 buy_exe <- function(x){
   
   # Get order size as the number of coins as allowed by the EUR balance
-  order_size <- round(curr_bal_eur()/ask(),5)[1]-0.005
+  # order_size <- round(curr_bal_eur()/ask(),5)[1]-0.005
+  order_size <- 1
   
   # While-Loop places buy orders as long as the coin balance equals zero
   while(curr_bal_btc() == 0){
