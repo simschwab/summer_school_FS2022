@@ -14,19 +14,19 @@
         <div class="span4"></div>
         <div class="span4">
 
-<h1>Thank you. Below you can find the predicted credit risk.</h1>
+<h1>Vielen Dank. Unterhalb finden Sie das vorhergesagte Kreditrisiko:</h1>
 <ul class="list-group">
-     <li class="list-group-item">Age (years): {{ session['Var1'] }}</li>
+     <li class="list-group-item">Alter (Jahre): {{ session['Var1'] }}</li>
      <li class="list-group-item">Job (0,1,2,3): {{ session['Var2'] }}</li>
-     <li class="list-group-item">Credit amount (EUR): {{ session['Var3'] }}</li>
-     <li class="list-group-item">Duration (months): {{ session['Var4'] }}</li>
+     <li class="list-group-item">Kredithöhe (EUR): {{ session['Var3'] }}</li>
+     <li class="list-group-item">Dauer (Monate): {{ session['Var4'] }}</li>
 </ul>
 <br>
-<p> <img src="{{ url_for('static', filename='credit_risk.png') }}" </p>
+<p> <img src="{{ url_for('static', filename='loan.jpg') }}" </p>
 <br>
 <br>
 <br>
-<h2>Predicted credit risk: <span style="color:blue;">{{ results }}</span></h2>
+<h2>Vorhergesagtes Kreditrisiko: <span style="color:blue;">{{ results }}</span></h2>
 
 </div>
 <div class="span4"></div>
