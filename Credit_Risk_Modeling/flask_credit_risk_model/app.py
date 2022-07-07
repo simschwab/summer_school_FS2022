@@ -3,8 +3,8 @@ import joblib
 
 from parameters import Parameters
 
-classifier_loaded = joblib.load("saved_models/model.pkl")
-encoder_loaded = joblib.load("saved_models/encoder.pkl")
+classifier_loaded = joblib.load("/Users/simschwab/dev/summer_school_FS2022/Credit_Risk_Modeling/flask_credit_risk_model/saved_models/model.pkl")
+encoder_loaded = joblib.load("/Users/simschwab/dev/summer_school_FS2022/Credit_Risk_Modeling/flask_credit_risk_model/saved_models/encoder.pkl")
 
 # Prediction function
 def make_prediction(model, encoder, sample_json):
@@ -43,8 +43,8 @@ def index():
     return render_template("home.html", form=form)
 
 # Read models
-classifier_loaded = joblib.load("saved_models/model.pkl")
-encoder_loaded = joblib.load("saved_models/encoder.pkl")
+classifier_loaded = joblib.load("/Users/simschwab/dev/summer_school_FS2022/Credit_Risk_Modeling/flask_credit_risk_model/saved_models/model.pkl")
+encoder_loaded = joblib.load("/Users/simschwab/dev/summer_school_FS2022/Credit_Risk_Modeling/flask_credit_risk_model/saved_models/encoder.pkl")
 
 @app.route('/prediction')
 def prediction():
